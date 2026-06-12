@@ -4,7 +4,14 @@ from pymongo import MongoClient
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            "http://localhost:3000",
+            "https://music-mood-weld.vercel.app"
+        ]
+    }
+})
 
 # ================= MONGODB CONNECTION =================
 mongo_uri = os.environ.get("MONGO_URI", "mongodb+srv://vu241fa04c16:sri39393@cluster39.jeql8kc.mongodb.net/?retryWrites=true&w=majority")
