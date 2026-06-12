@@ -25,13 +25,12 @@ def home():
 # ================= SIGNUP =================
 @app.route("/signup", methods=["POST"])
 def signup():
-    data = request.json
+    data = request.get_json()
 
     name = data.get("name")
     email = data.get("email")
     password = data.get("password")
 
-    # check if user already exists
     if users.find_one({"email": email}):
         return jsonify({"message": "User already exists"}), 400
 
@@ -47,7 +46,7 @@ def signup():
 # ================= LOGIN (FIXED) =================
 @app.route("/login", methods=["POST"])
 def login():
-    data = request.json
+    data = request.get_json()
 
     email = data.get("email")
     password = data.get("password")
