@@ -1,12 +1,14 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
+import os
 
 app = Flask(__name__)
 CORS(app)
 
 # ================= MONGODB CONNECTION =================
-client = MongoClient("mongodb+srv://vu241fa04c16:sri39393@cluster39.jeql8kc.mongodb.net/?retryWrites=true&w=majority")
+mongo_uri = os.environ.get("MONGO_URI", "mongodb+srv://vu241fa04c16:sri39393@cluster39.jeql8kc.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient(mongo_uri)
 
 db = client["musicdb"]
 users = db["users"]
@@ -178,4 +180,6 @@ def songs(mood):
 
 # ================= RUN SERVER =================
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    debug = os.environ.get("FLASK_DEBUG", "False").lower() in ("1", "true", "yes")
+    app.run(host="0.0.0.0", port=port, debug=debug)
