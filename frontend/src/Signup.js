@@ -12,7 +12,9 @@ function Signup({ goToLogin }) {
       alert(res.data.message);
       goToLogin();
     } catch (err) {
-      alert("Signup Failed");
+      console.error(err);
+      const msg = err?.response?.data?.message || err.message || "Signup Failed";
+      alert(msg);
     }
   };
 
